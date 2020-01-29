@@ -26,10 +26,60 @@
 
 namespace libs\ModuleFixer;
 
+use Context;
+use Hook;
+use Module;
+
 class ModuleFixer
 {
+    /** @var Module */
+    private $module;
+    /** @var Context */
+    private $context;
+
+    private $errors = array();
+
     public function __construct($module)
     {
+        $this->context = Context::getContext();
+        $this->module = $module;
+    }
 
+    public function display()
+    {
+        $hooks = $this->getHooksList();
+        $this->context->smarty->assign(array(
+            'module' => $this->module,
+            'hooks'  => $hooks
+        ));
+        return $this->context->smarty->fetch(dirname(__FILE__) . '/ModuleFixer.tpl');
+    }
+
+    private function getHooksList()
+    {
+        $hooks_list = array();
+
+        if (!property_exists($this->module, 'hooks')) {
+            $this->errors[] = 'Module class has no property hooks, it should be an array containing mandatory hooks';
+            return false;
+        }
+
+        $hooks = $this->module->hooks;
+
+        if (!is_array($hooks)) {
+            $this->errors[] = 'property hooks should be an array containing mandatory hooks';
+            return false;
+        }
+
+        foreach ($hooks as $hook) {
+            if (!Hook::isModuleRegisteredOnHook($this->module, $hook, $this->context->shop->id)) {
+                $hooks_list[] = array(
+                    'id_hook' => Hook::getIdByName($hook),
+                    'name'    => $hook,
+                );
+            }
+        }
+
+        return $hooks_list;
     }
 }
