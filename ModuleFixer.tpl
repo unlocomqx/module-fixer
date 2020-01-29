@@ -35,12 +35,12 @@
           {foreach $hooks as $hook}
             <li>
               <label for="id_hook_{$hook.id_hook}">
-                <input id="id_hook_{$hook.id_hook}" name="id_hook[]" type="checkbox"> {$hook.name}
+                <input id="id_hook_{$hook.id_hook}" name="hooks[{$hook.name}]" type="checkbox"> {$hook.name}
               </label>
             </li>
           {/foreach}
         </ul>
-        <button type="submit" class="btn btn-primary">Restore selected hooks</button>
+        <button type="submit" name="restore_hooks" class="btn btn-primary">Restore selected hooks</button>
       </form>
     {else}
       <p>The module is already hooked to all necessary hooks</p>

@@ -29,6 +29,7 @@ namespace libs\ModuleFixer;
 use Context;
 use Hook;
 use Module;
+use Tools;
 
 class ModuleFixer
 {
@@ -47,6 +48,7 @@ class ModuleFixer
 
     public function display()
     {
+        $this->postProcess();
         $hooks = $this->getHooksList();
         $this->context->smarty->assign(array(
             'module' => $this->module,
@@ -64,6 +66,7 @@ class ModuleFixer
             return false;
         }
 
+        /** @noinspection PhpPossiblePolymorphicInvocationInspection */
         $hooks = $this->module->hooks;
 
         if (!is_array($hooks)) {
@@ -73,13 +76,34 @@ class ModuleFixer
 
         foreach ($hooks as $hook) {
             if (!Hook::isModuleRegisteredOnHook($this->module, $hook, $this->context->shop->id)) {
+                $id_hook = (int)Hook::getIdByName($hook);
                 $hooks_list[] = array(
-                    'id_hook' => Hook::getIdByName($hook),
+                    'id_hook' => $id_hook,
                     'name'    => $hook,
                 );
             }
         }
 
         return $hooks_list;
+    }
+
+    private function postProcess()
+    {
+        if (Tools::isSubmit('restore_hooks')) {
+            $this->restoreHooks();
+        }
+    }
+
+    private function restoreHooks()
+    {
+        $hooks = (array)Tools::getValue('hooks');
+        if (is_array($hooks)) {
+            $hook_names = array_keys($hooks);
+            foreach ($hook_names as $hook_name) {
+                if ($hook_name) {
+                    $this->module->registerHook($hook_name);
+                }
+            }
+        }
     }
 }
