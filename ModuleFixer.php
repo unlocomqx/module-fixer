@@ -30,5 +30,6 @@ class ModuleFixer
 {
     public function __construct($module)
     {
+
     }
 }
