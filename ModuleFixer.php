@@ -53,6 +53,7 @@ class ModuleFixer
         $unregistered_hooks = $this->getHooksList($module_hooks);
         $this->context->smarty->assign(array(
             'module'             => $this->module,
+            'module_link'        => $this->getModuleLink(),
             'module_hooks'       => $module_hooks,
             'unregistered_hooks' => $unregistered_hooks,
         ));
@@ -112,5 +113,11 @@ class ModuleFixer
                 }
             }
         }
+    }
+
+    private function getModuleLink()
+    {
+        $token = Tools::getAdminTokenLite('AdminModules');
+        return 'index.php?controller=AdminModules&token=' . $token . '&configure=' . $this->module->name;
     }
 }

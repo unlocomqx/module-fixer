@@ -51,4 +51,8 @@
       </ul>
     {/if}
   </div>
+
+  <div class="panel-footer">
+    <a href="{$module_link|escape:'htmlall':'UTF-8'}" class="btn btn-default pull-left"><i class="process-icon-back"></i> {l s='Back' mod='productdesigner'}</a>
+  </div>
 </div>
