@@ -24,29 +24,29 @@
 *}
 
 <div class="panel">
-  <h3><i class="icon icon-credit-card"></i> {$module->displayName}</h3>
+  <h3><i class="icon icon-credit-card"></i> {$module->displayName|escape:'htmlall':'UTF-8'}</h3>
 
   <div class="well">
-    <h4>List of hooks</h4>
+    <h4>{l s='List of hooks' mod='productdesigner'}</h4>
     {if count($unregistered_hooks)}
-      <p>You can attach the module again to the following hooks</p>
+      <p>{l s='You can attach the module again to the following hooks' mod='productdesigner'}</p>
       <form action="" method="post">
         <ul>
           {foreach $unregistered_hooks as $hook}
             <li>
-              <label for="id_hook_{$hook.id_hook}">
-                <input id="id_hook_{$hook.id_hook}" name="hooks[{$hook.name}]" type="checkbox"> {$hook.name}
+              <label for="id_hook_{$hook.id_hook|intval}">
+                <input id="id_hook_{$hook.id_hook|intval}" name="hooks[{$hook.name|escape:'htmlall':'UTF-8'}]" type="checkbox"> {$hook.name|escape:'htmlall':'UTF-8'}
               </label>
             </li>
           {/foreach}
         </ul>
-        <button type="submit" name="restore_hooks" class="btn btn-primary">Restore selected hooks</button>
+        <button type="submit" name="restore_hooks" class="btn btn-primary">{l s='Restore selected hooks' mod='productdesigner'}</button>
       </form>
     {else}
-      <div class="alert alert-success">The module is hooked to all necessary hooks</div>
-      <ul style="color: #72c279; list-style: none">
+      <div class="alert alert-success">{l s='The module is hooked to all necessary hooks' mod='productdesigner'}</div>
+      <ul style="color: #72c279; list-style: none;">
       {foreach $module_hooks as $module_hook}
-        <li><strong><i class="icon-check-circle"></i> {$module_hook}</strong></li>
+        <li><strong><i class="icon-check-circle"></i> {$module_hook|escape:'htmlall':'UTF-8'}</strong></li>
       {/foreach}
       </ul>
     {/if}
