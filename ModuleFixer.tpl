@@ -27,14 +27,14 @@
   <h3><i class="icon icon-credit-card"></i> {$module->displayName|escape:'htmlall':'UTF-8'}</h3>
 
   <div class="well">
-    <h4>{l s='List of hooks' mod='productdesigner'}</h4>
+    <h4>{l s='List of hooks' mod='module_name'}</h4>
 
     {foreach $errors as $error}
       <div class="alert alert-danger">{$error|escape:'htmlall':'UTF-8'}</div>
     {/foreach}
 
     {if count($unregistered_hooks)}
-      <p>{l s='You can attach the module again to the following hooks' mod='productdesigner'}</p>
+      <p>{l s='You can attach the module again to the following hooks' mod='module_name'}</p>
       <form action="" method="post">
         <ul>
           {foreach $unregistered_hooks as $hook}
@@ -45,10 +45,10 @@
             </li>
           {/foreach}
         </ul>
-        <button type="submit" name="restore_hooks" class="btn btn-primary">{l s='Restore selected hooks' mod='productdesigner'}</button>
+        <button type="submit" name="restore_hooks" class="btn btn-primary">{l s='Restore selected hooks' mod='module_name'}</button>
       </form>
     {elseif count($module_hooks)}
-      <div class="alert alert-success">{l s='The module is hooked to all necessary hooks' mod='productdesigner'}</div>
+      <div class="alert alert-success">{l s='The module is hooked to all necessary hooks' mod='module_name'}</div>
       <ul style="color: #72c279; list-style: none;">
       {foreach $module_hooks as $module_hook}
         <li><strong><i class="icon-check-circle"></i> {$module_hook|escape:'htmlall':'UTF-8'}</strong></li>
@@ -58,6 +58,6 @@
   </div>
 
   <div class="panel-footer">
-    <a href="{$module_link|escape:'htmlall':'UTF-8'}" class="btn btn-default pull-left"><i class="process-icon-back"></i> {l s='Back' mod='productdesigner'}</a>
+    <a href="{$module_link|escape:'htmlall':'UTF-8'}" class="btn btn-default pull-left"><i class="process-icon-back"></i> {l s='Back' mod='module_name'}</a>
   </div>
 </div>
