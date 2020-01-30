@@ -32,7 +32,7 @@
       <p>You can attach the module again to the following hooks</p>
       <form action="" method="post">
         <ul>
-          {foreach $hooks as $hook}
+          {foreach $unregistered_hooks as $hook}
             <li>
               <label for="id_hook_{$hook.id_hook}">
                 <input id="id_hook_{$hook.id_hook}" name="hooks[{$hook.name}]" type="checkbox"> {$hook.name}
@@ -43,7 +43,12 @@
         <button type="submit" name="restore_hooks" class="btn btn-primary">Restore selected hooks</button>
       </form>
     {else}
-      <p>The module is already hooked to all necessary hooks</p>
+      <div class="alert alert-success">The module is already hooked to all necessary hooks</div>
+      <ul style="color: #72c279; list-style: none">
+      {foreach $module_hooks as $module_hook}
+        <li><strong><i class="icon-check-circle"></i> {$module_hook}</strong></li>
+      {/foreach}
+      </ul>
     {/if}
   </div>
 </div>

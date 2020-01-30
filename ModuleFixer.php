@@ -49,32 +49,39 @@ class ModuleFixer
     public function display()
     {
         $this->postProcess();
-        $hooks = $this->getHooksList();
+        $module_hooks = $this->getModuleHooks();
+        $unregistered_hooks = $this->getHooksList($module_hooks);
         $this->context->smarty->assign(array(
-            'module' => $this->module,
-            'hooks'  => $hooks
+            'module'             => $this->module,
+            'module_hooks'       => $module_hooks,
+            'unregistered_hooks' => $unregistered_hooks,
         ));
         return $this->context->smarty->fetch(dirname(__FILE__) . '/ModuleFixer.tpl');
     }
 
-    private function getHooksList()
+    private function getModuleHooks()
     {
-        $hooks_list = array();
-
         if (!property_exists($this->module, 'hooks')) {
             $this->errors[] = 'Module class has no property hooks, it should be an array containing mandatory hooks';
             return false;
         }
 
         /** @noinspection PhpPossiblePolymorphicInvocationInspection */
-        $hooks = $this->module->hooks;
+        $module_hooks = $this->module->hooks;
 
-        if (!is_array($hooks)) {
+        if (!is_array($module_hooks)) {
             $this->errors[] = 'property hooks should be an array containing mandatory hooks';
             return false;
         }
 
-        foreach ($hooks as $hook) {
+        return $module_hooks;
+    }
+
+    private function getHooksList($module_hooks)
+    {
+        $hooks_list = array();
+
+        foreach ($module_hooks as $hook) {
             if (!Hook::isModuleRegisteredOnHook($this->module, $hook, $this->context->shop->id)) {
                 $id_hook = (int)Hook::getIdByName($hook);
                 $hooks_list[] = array(
