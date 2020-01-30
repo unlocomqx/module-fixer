@@ -56,6 +56,7 @@ class ModuleFixer
             'module_link'        => $this->getModuleLink(),
             'module_hooks'       => $module_hooks,
             'unregistered_hooks' => $unregistered_hooks,
+            'errors'             => $this->errors,
         ));
         return $this->context->smarty->fetch(dirname(__FILE__) . '/ModuleFixer.tpl');
     }
@@ -64,15 +65,15 @@ class ModuleFixer
     {
         if (!property_exists($this->module, 'hooks')) {
             $this->errors[] = 'Module class has no property hooks, it should be an array containing mandatory hooks';
-            return false;
+            return array();
         }
 
-        /** @noinspection PhpPossiblePolymorphicInvocationInspection */
+        /** @noinspection PhpUndefinedFieldInspection */
         $module_hooks = $this->module->hooks;
 
         if (!is_array($module_hooks)) {
             $this->errors[] = 'property hooks should be an array containing mandatory hooks';
-            return false;
+            return array();
         }
 
         return $module_hooks;

@@ -28,6 +28,11 @@
 
   <div class="well">
     <h4>{l s='List of hooks' mod='productdesigner'}</h4>
+
+    {foreach $errors as $error}
+      <div class="alert alert-danger">{$error|escape:'htmlall':'UTF-8'}</div>
+    {/foreach}
+
     {if count($unregistered_hooks)}
       <p>{l s='You can attach the module again to the following hooks' mod='productdesigner'}</p>
       <form action="" method="post">
@@ -42,7 +47,7 @@
         </ul>
         <button type="submit" name="restore_hooks" class="btn btn-primary">{l s='Restore selected hooks' mod='productdesigner'}</button>
       </form>
-    {else}
+    {elseif count($module_hooks)}
       <div class="alert alert-success">{l s='The module is hooked to all necessary hooks' mod='productdesigner'}</div>
       <ul style="color: #72c279; list-style: none;">
       {foreach $module_hooks as $module_hook}
