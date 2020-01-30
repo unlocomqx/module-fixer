@@ -28,7 +28,7 @@
 
   <div class="well">
     <h4>List of hooks</h4>
-    {if count($hooks)}
+    {if count($unregistered_hooks)}
       <p>You can attach the module again to the following hooks</p>
       <form action="" method="post">
         <ul>
@@ -43,7 +43,7 @@
         <button type="submit" name="restore_hooks" class="btn btn-primary">Restore selected hooks</button>
       </form>
     {else}
-      <div class="alert alert-success">The module is already hooked to all necessary hooks</div>
+      <div class="alert alert-success">The module is hooked to all necessary hooks</div>
       <ul style="color: #72c279; list-style: none">
       {foreach $module_hooks as $module_hook}
         <li><strong><i class="icon-check-circle"></i> {$module_hook}</strong></li>
